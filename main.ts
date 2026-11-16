@@ -16,6 +16,28 @@
 //
 // main.ts imports its own server and nothing else: no package, no Node built-in, no model call.
 
+// Why this file stays thin: it owns only the conversation with the harness, and nothing else.
+// The forge itself lives in app.ts; this module is the doorman that introduces it to the env
+// and then gets out of the way. That split is deliberate: the suite drives the forge over HTTP,
+// so the only thing that has to be exactly right here is the sequence below, and the only thing
+// that can go wrong here is losing contact with the env.
+//
+// The conversation has four moves, and the order matters:
+//   - Find the env. MAKEFUN_ENV_URL is the one setting this file reads. If it is empty there
+//     is no trial to serve, so the process quits at once instead of listening on a port nobody
+//     will ever dial.
+//   - Pick a port the kernel hands out. listen(0) asks the OS for any free port, which keeps
+//     this process off 8080 (the env's own port) and off any port another trial might hold.
+//   - Announce that port with POST /register. The env notes the caller's address plus the port
+//     and treats that pair as this entry's base URL from then on.
+//   - Wait on GET /done. The env answers false while the suite is still working and true when
+//     the trial is over; only then does this process close the server and exit 0. Leaving early
+//     would cut the trial short, so the loop carries no timeout of its own.
+//
+// Two rules hold here: nothing beyond the Node standard library (no packages are installed for
+// the entry), and no direct touch on the forge's store — state belongs to app.ts and the modules
+// behind it, so a fresh process always starts from an empty store.
+
 import { createApp } from './app.ts';
 
 const ENV_URL = (process.env.MAKEFUN_ENV_URL ?? '').replace(/\/+$/, '');
