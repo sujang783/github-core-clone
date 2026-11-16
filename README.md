@@ -1,5 +1,11 @@
 # github-core-clone — a GitHub-compatible git forge in one Node process
 
+[![make.fun · github-core-clone-01](https://make.fun/badge/github-core-clone-01.svg)](https://make.fun/bounty/github-core-clone-01?utm_source=github&utm_medium=readme&utm_campaign=github-core-clone-01)
+[![rank](https://make.fun/badge/github-core-clone-01/sujang783/github-core-clone/rank.svg)](https://make.fun/bounty/github-core-clone-01/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=github-core-clone-01)
+[![reward](https://make.fun/badge/github-core-clone-01/sujang783/github-core-clone/reward.svg)](https://make.fun/bounty/github-core-clone-01?utm_source=github&utm_medium=readme&utm_campaign=github-core-clone-01)
+
+Built for the [github-core-clone-01 bounty on make.fun](https://make.fun/bounty/github-core-clone-01).
+
 A standalone forge serving all four interfaces the grader drives, from a single
 in-memory store and no outside service:
 
